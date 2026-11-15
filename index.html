@@ -1694,11 +1694,11 @@ function trickNow(t,p){
   return{k,u:0};
 }
 /* ---------- the hero sprite: frames cut from the player's own sheet, packed in hero.webp ---------- */
-const FR={"idle0":[113,0,80,179,38.5,178.0],"idle1":[195,0,82,179,40.0,178.0],"idle2":[279,0,81,179,39.5,178.0],"idle3":[362,0,81,179,40.0,178.0],"idle4":[445,0,82,179,42.0,178.0],"idle5":[529,0,81,179,39.5,178.0],"run0":[612,0,127,175,64.5,173.0],"run1":[0,185,112,173,52.0,172.0],"run2":[234,185,116,171,54.5,170.0],"run3":[741,0,126,175,64.0,173.0],"run4":[114,185,118,172,59.0,171.0],"run5":[869,0,127,174,64.5,173.0],"crouch":[0,360,129,129,64.0,128.0],"jumpA":[0,0,111,183,55.0,182.0],"jump":[501,185,103,154,50.5,153.0],"kick":[352,185,147,170,73.0,169.0],"land":[606,185,113,154,56.0,153.0],"slideA":[131,360,213,118,106.5,116.0],"flipA":[868,185,131,147,65.0,145.0],"flipB":[721,185,145,151,71.5,149.0],"slideB":[346,360,242,112,120.0,111.0]};
-const SEQ={idle:['idle0','idle1','idle2','idle3','idle4','idle5'],run:['run0','run1','run2','run3','run4','run5'],
-  flip:['crouch','jumpA','flipA','flipB','jump','land'],leap:['crouch','jumpA','kick','jump','land'],
-  slide:['slideA','slideA','slideB','slideB','slideB','land']};
-const HS=54/177,HERO={img:null,ok:false,tints:{},order:[]};
+const FR={"idle0":[1565,0,99,186,53.4,185.0],"idle1":[1266,0,100,187,53.9,186.0],"idle2":[743,0,100,188,52.9,186.0],"idle3":[845,0,100,188,53.8,186.0],"idle4":[947,0,100,188,53.8,186.0],"idle5":[1368,0,99,187,53.6,186.0],"run0":[1666,0,115,186,62.0,186.0],"run1":[1049,0,115,188,66.0,183.0],"run2":[1783,0,116,186,73.1,184.0],"run3":[0,198,124,184,68.3,183.0],"run4":[0,0,126,196,68.0,185.0],"run5":[231,0,122,194,68.0,192.0],"run6":[575,198,120,172,68.9,185.0],"run7":[1469,0,94,187,49.7,180.0],"jp0":[1737,198,101,156,56.5,153.0],"jp1":[697,198,104,169,57.6,166.0],"jp2":[1901,0,103,185,55.0,182.0],"jp3":[1166,0,98,188,53.3,194.0],"jp4":[355,0,100,191,54.2,202.0],"jp5":[128,0,101,195,54.5,208.0],"jp6":[457,0,99,190,52.9,195.0],"jp7":[558,0,98,189,48.3,186.0],"jp8":[126,198,100,179,49.8,176.0],"jp9":[1408,198,102,159,57.2,156.0],"fl0":[658,0,83,189,38.3,187.0],"fl1":[1238,198,79,160,39.0,182.0],"fl2":[1319,198,87,160,40.9,174.0],"fl3":[344,384,114,146,62.1,157.0],"fl4":[1840,198,106,156,51.1,156.0],"fl5":[1132,198,104,161,48.6,158.0],"fl6":[803,198,99,167,44.8,163.0],"fl7":[904,198,110,167,56.2,163.0],"fl8":[348,198,113,177,59.1,173.0],"fl9":[463,198,110,173,57.5,169.0],"fl10":[1016,198,114,166,64.5,164.0],"fl11":[103,384,106,152,60.0,158.0],"fl12":[546,384,97,138,52.1,148.0],"fl13":[460,384,84,143,43.7,146.0],"fl14":[1643,198,92,157,43.8,154.0],"fl15":[0,384,101,155,52.3,152.0],"sl0":[1512,198,129,159,55.0,159.0],"sl1":[211,384,131,150,55.7,150.0],"sl2":[816,384,150,115,56.8,115.0],"sl3":[1111,384,155,113,60.2,113.0],"sl4":[1268,384,162,113,65.6,113.0],"sl5":[968,384,141,115,60.4,115.0],"sl6":[645,384,169,117,97.1,117.0],"sl7":[228,198,118,178,65.4,178.0]};
+const SEQ={idle:['idle0','idle1','idle2','idle3','idle4','idle5'],run:['run0','run1','run2','run3','run4','run5','run6','run7'],
+  flip:['fl0','fl1','fl2','fl3','fl4','fl5','fl6','fl7','fl8','fl9','fl10','fl11','fl12','fl13','fl14','fl15'],leap:['jp0','jp1','jp2','jp3','jp4','jp5','jp6','jp7','jp8','jp9'],
+  slide:['sl0','sl1','sl2','sl3','sl4','sl5','sl6','sl7']};
+const HS=56/186,HERO={img:null,ok:false,tints:{},order:[]};
 (function(){const im=new Image();im.onload=()=>{HERO.img=im;HERO.ok=true};im.src='hero.webp'})();
 /* Skins recolour only the suit: pixels in the violet band move to the skin's hue, skin and trim stay. */
 function tinted(hue,dim){
@@ -1737,9 +1737,9 @@ function human(t,pos,rx,ry,sk,alpha,ghost,tr,still,hop,lift){
   if(!HERO.ok){stick(t,pos,rx,ry-(lift||0),sk,alpha,ghost,tr&&tr.k==='flip'?tr:null,still);return}
   let name;
   if(tr){const q=SEQ[tr.k];name=q[Math.min(q.length-1,Math.floor(tr.u*q.length))]}
-  else if(still)name=SEQ.idle[Math.floor(t*5)%6];
-  else if(hop)name='jumpA';
-  else name=SEQ.run[Math.floor((((pos/2)%1)+1)%1*6)%6];
+  else if(still)name=SEQ.idle[Math.floor(t*5)%SEQ.idle.length];
+  else if(hop)name='jp4';
+  else{const n=SEQ.run.length;name=SEQ.run[Math.floor((((pos/2)%1)+1)%1*n)%n]}
   cx.save();cx.translate(rx,ry);
   if(!ghost){
     const up=(lift||0)+(hop?8:0);
@@ -2546,7 +2546,7 @@ function renderSkins(){
     const own=S.skins.includes(k.id),on=own&&S.skin===k.id;
     const art='<span class="c2art tall" style="background:'+(k.glow==='rainbow'
       ?'linear-gradient(135deg,#5a2a6e,#2a3a7a,#1f5a5a)':'linear-gradient(160deg,#2a2150,#140d2c)')+
-      '"><canvas width="132" height="168"></canvas></span>';
+      '"><canvas width="264" height="336"></canvas></span>';
     const poor=!own&&!k.relics&&S.shards<k.cost;
     const el=card2(own?(on?' own sel':' own'):'',art,own?(on?'Equipped':'Owned'):(k.relics?'Relic set':'Locked'),
       k.name,k.relics?'All 8 relics':(k.cost?'Skin':'Starter'),
@@ -2563,10 +2563,10 @@ function renderSkins(){
       /* a small portrait of the suit in this skin's colour, drawn once and kept */
       if(!HERO.prev)HERO.prev={};
       if(!HERO.prev[k.id]){
-        const pc=document.createElement('canvas');pc.width=132;pc.height=168;
-        const f=FR.idle0,q=160/f[3],px=pc.getContext('2d');
-        if(k.glow){px.shadowColor=k.glow==='rainbow'?'#ff7ad9':k.glow;px.shadowBlur=14}
-        px.drawImage(tinted(k.hue,k.dim),f[0],f[1],f[2],f[3],(132-f[2]*q)/2,4,f[2]*q,f[3]*q);
+        const pc=document.createElement('canvas');pc.width=264;pc.height=336;
+        const f=FR.idle0,q=320/f[3],px=pc.getContext('2d');
+        if(k.glow){px.shadowColor=k.glow==='rainbow'?'#ff7ad9':k.glow;px.shadowBlur=26}
+        px.drawImage(tinted(k.hue,k.dim),f[0],f[1],f[2],f[3],(264-f[2]*q)/2,8,f[2]*q,f[3]*q);
         HERO.prev[k.id]=pc;
       }
       el.querySelector('canvas').getContext('2d').drawImage(HERO.prev[k.id],0,0);
