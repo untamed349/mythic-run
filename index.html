@@ -1171,7 +1171,7 @@ function reset(idle){
      mode:st?'story':'endless',iss:st,ci:si,li:li,tier:st?lvTier(si,li):0.5,boss:si===BOSS&&!!st,
      limit:(!idle&&st)?sect:0,tailed:false,misses:0,done:false,
      th:th,sky:pal?pal.sky:g.sky,ac:pal?pal.ac:g.sky[2],crew:st?{body:st.body,scarf:st.scarf,hue:CREWHUE[si],glow:si===BOSS?'rainbow':0}:null,
-     paused:false,pauseT:0,maxH:st?Math.min(8,4+Math.ceil(sect/2)):5,
+     paused:false,pauseT:0,nextTrick:0,maxH:st?Math.min(8,4+Math.ceil(sect/2)):5,
      hearts:st?Math.min(8,4+Math.ceil(sect/2)):5,perf:0,found:[],score:0,streak:0,chants:0,hits:0,sh:0,lastH:1,trick:null,tIdx:-99,dts:[],floats:[],parts:[],banner:null,shake:-9,endT:0,rings:[]};
   for(let k=0;k<8;k++){G.steps.push({t:G.nextT,iv,k,barN:0,count:true,note:-1,d:1,haz:[0,0,0],state:idle?'carry':'rest',h:1,q:'',bt:-9,ph:null,end:false});G.nextT+=iv}
   while(G.steps.length<60)genSection();
@@ -1687,12 +1687,15 @@ function trickNow(t,p){
   const idx=Math.floor(p-3);
   if(reduce||idx<=G.tIdx)return null;
   G.tIdx=idx;
-  if(G.over||mult()<3)return null;
-  const hop=colH(idx)!==colH(idx+1)||colH(idx+1)!==colH(idx+2);
-  if(!(hop||Math.random()<0.4))return null;
+  if(G.over||mult()<3||t<G.nextTrick)return null;
+  /* A flourish is punctuation, not the handwriting: he runs for a couple of seconds between tricks,
+     and a step in the road is only an invitation to one, not a guarantee. */
+  const step=colH(idx)!==colH(idx+1)||colH(idx+1)!==colH(idx+2);
+  if(!(Math.random()<(step?0.5:0.12)))return null;
   const iv=G.steps[Math.max(0,Math.min(G.cur,G.steps.length-1))].iv;
-  const k=hop?TRICKS[Math.floor(Math.random()*2)]:TRICKS[Math.floor(Math.random()*3)];
+  const k=step?TRICKS[Math.floor(Math.random()*2)]:TRICKS[Math.floor(Math.random()*3)];
   G.trick={k,s:t,e:t+iv*1.9};
+  G.nextTrick=t+2.4+Math.random()*2.8;
   return{k,u:0};
 }
 /* ---------- the hero sprite ----------
@@ -1743,7 +1746,7 @@ function human(t,pos,rx,ry,sk,alpha,ghost,tr,still,hop,lift){
   let name;
   if(tr){const q=SEQ[tr.k];name=q[Math.min(q.length-1,Math.floor(tr.u*q.length))]}
   else if(still)name=SEQ.idle[Math.floor(t*5)%SEQ.idle.length];
-  else if(hop)name='jp4';
+  else if(hop){const q=SEQ.leap,u=Math.max(0,Math.min(0.999,(hop-0.12)/0.78));name=q[Math.floor(u*q.length)]}
   else{
     /* One footfall per step: the six frames run reach, flight, contact, gather, tuck, passing,
        and the contact frame lands as the runner reaches each stone, on the beat. */
@@ -2144,7 +2147,7 @@ function draw(t){
   cx.globalAlpha=1;if(G.rings.length>16)G.rings.splice(0,8);
   }
   const sk=curSkin(),ro=-3,rx=buildX+ro*colW,tr=trickNow(t,pos);
-  const pa=Math.floor(pos+ro),pf=pos+ro-pa,hop=!tr&&colH(pa)!==colH(pa+1)&&pf>0.12&&pf<0.9;
+  const pa=Math.floor(pos+ro),pf=pos+ro-pa,hop=(!tr&&colH(pa)!==colH(pa+1)&&pf>0.12&&pf<0.9)?pf:0;
   if(!reduce&&!tr)for(let k=2;k>=1;k--)human(t,pos-k*0.22,rx-k*7,runY(pos+ro-k*0.22),sk,0.1,true,null,false,false,0);
   human(t,pos,rx,runY(pos+ro),sk,1,false,tr,false,hop,trickLift(tr));
   for(const q of G.parts){
@@ -2169,7 +2172,8 @@ function draw(t){
   cx.fillStyle=scene.vig;cx.fillRect(0,0,W,H);
   if(sh>=0&&sh<0.4){cx.fillStyle='rgba(226,96,63,'+(0.26*(1-sh/0.4))+')';cx.fillRect(0,0,W,H)}
   if(G.iss&&!G.idle){
-    const pr=Math.max(0,Math.min(1,(pos-8)/(G.limit*64)));
+    /* The level ends when the last of the 14 closing steps crosses the line, so they count too. */
+    const pr=Math.max(0,Math.min(1,(pos-8)/(G.limit*64+14)));
     cx.fillStyle='rgba(0,0,0,.4)';cx.fillRect(0,0,W,3);
     cx.fillStyle=G.ac;cx.fillRect(0,0,W*pr,3);
     cx.fillStyle='rgba(255,255,255,.9)';cx.fillRect(Math.max(0,W*pr-2),0,2,3);
