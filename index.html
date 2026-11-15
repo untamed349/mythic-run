@@ -221,6 +221,135 @@ body{background:var(--night);color:var(--ink);font-family:var(--body);overflow:h
 .card2:active{transform:translateY(2px);box-shadow:0 3px 0 rgba(0,0,0,.4)}
 .card2 .tag{position:absolute;right:-4px;top:-4px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:800;
   background:#ff4d4d;color:#fff;border:2px solid #fff;letter-spacing:.05em}
+/* --- music store --- */
+/* Laid out like a music app: the balance stays on top, the shelf scrolls in the middle,
+   and the player with its buy or play button is docked where the thumb is. */
+#store{overflow:hidden}
+#store .in{height:100%;margin:0 auto;gap:11px}
+.stBody{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;gap:11px;text-align:left}
+.stScroll{flex:1;min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:9px;
+  margin:0 -4px;padding:2px 4px 8px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.stScroll .hint{margin:4px 2px 0;text-align:center}
+.stList{display:flex;flex-direction:column;gap:9px;min-width:0;width:100%}
+.sdeck{flex:none;display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:20px;overflow:hidden;
+  border:2px solid rgba(255,255,255,.24);box-shadow:0 5px 0 rgba(0,0,0,.45),0 14px 22px rgba(8,5,20,.6);
+  background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--c,#7a2f8a) 42%,transparent),transparent 62%),
+    linear-gradient(160deg,color-mix(in srgb,var(--b,#2a2470) 62%,#0c0820),#120c28 72%)}
+.dkTop{display:flex;gap:12px;align-items:center}
+.dkArt{position:relative;flex:none;width:92px;height:92px;padding:0;border-radius:16px;overflow:hidden;cursor:pointer;
+  border:2px solid rgba(255,255,255,.75);box-shadow:0 4px 0 rgba(0,0,0,.4);
+  background:linear-gradient(168deg,var(--a,#333),var(--b,#555) 54%,var(--c,#777))}
+.dkArt .orb{position:absolute;right:14px;top:12px;width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff7e0,var(--c,#777))}
+.dkArt .hill{position:absolute;inset:auto 0 0 0;height:30px;transition:opacity .2s;
+  background:radial-gradient(60% 150% at 24% 130%,rgba(0,0,0,.75) 60%,transparent 61%),
+             radial-gradient(52% 130% at 74% 132%,rgba(0,0,0,.6) 60%,transparent 61%)}
+.eq{position:absolute;left:10px;right:10px;bottom:8px;height:34px;display:flex;align-items:flex-end;gap:4px;opacity:0;transition:opacity .2s}
+.eq i{flex:1;height:100%;border-radius:3px 3px 0 0;background:rgba(255,255,255,.92);transform-origin:50% 100%;transform:scaleY(.18)}
+.playing .eq{opacity:1}
+.playing .hill{opacity:0}
+.playing .eq i{animation:eq var(--beat,.5s) ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:-.31s}.eq i:nth-child(3){animation-delay:-.12s}
+.eq i:nth-child(4){animation-delay:-.44s}.eq i:nth-child(5){animation-delay:-.22s}
+@keyframes eq{from{transform:scaleY(.18)}to{transform:scaleY(1)}}
+.dkGlyph{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(10,6,24,.6);border:2px solid rgba(255,255,255,.9);transition:transform .2s,opacity .2s}
+.dkGlyph svg{width:17px;height:17px;fill:#fff}
+.playing .dkGlyph{transform:translateY(-16px) scale(.7);opacity:.85}
+.dkInfo{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.chip{padding:2px 8px;border-radius:999px;font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(255,255,255,.16);color:#fff}
+.chip.own{background:linear-gradient(180deg,#8ef09a,#3fae63);color:#06240f}
+.chip.pick{background:linear-gradient(180deg,#ffe07a,#ef9a1e);color:#3a1c00}
+.dkInfo>b{max-width:100%;font-family:var(--display);font-weight:800;font-size:clamp(17px,5.2vw,21px);letter-spacing:.03em;line-height:1.15;color:#fff;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dkInfo>i{font-style:normal;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.dkInfo>em{font-style:normal;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.86);font-variant-numeric:tabular-nums}
+.meter{width:100%;height:7px;margin-top:3px;border-radius:999px;background:rgba(0,0,0,.42);overflow:hidden}
+.meter s{display:block;height:100%;border-radius:999px;background:linear-gradient(180deg,#ffe07a,#f0a32c)}
+.dkBtns{display:flex;gap:9px}
+.dkBtns button{position:relative;min-height:46px;padding:0 12px;border-radius:14px;cursor:pointer;overflow:hidden;
+  font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.02em;font-variant-numeric:tabular-nums;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.dkBtns button:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.4)}
+.dkPrev{flex:0 0 38%;display:flex;align-items:center;justify-content:center;gap:7px;color:#fff;
+  background:rgba(255,255,255,.13);border:2px solid rgba(255,255,255,.4)}
+.dkPrev svg{position:relative;width:14px;height:14px;fill:#fff;flex:none}
+.dkPrev span{position:relative}
+.dkPrev s{position:absolute;inset:0 auto 0 0;width:0;background:rgba(255,255,255,.26)}
+@keyframes pvbar{from{width:0}to{width:100%}}
+.dkCta{flex:1;min-width:0;color:#3a1c00;background:linear-gradient(180deg,#ffd468,#ef9a1e);border:2px solid #fff6d8}
+.dkCta.play{color:#06240f;background:linear-gradient(180deg,#8ef09a,#3fae63);border-color:#e2ffe6}
+.dkCta.no{color:#fff;background:linear-gradient(180deg,#8a86a8,#5a5678);border-color:rgba(255,255,255,.45)}
+@media (min-width:900px),(max-height:520px) and (min-width:560px){
+  #store .in{max-width:760px}
+  .stBody{flex-direction:row;align-items:flex-start;gap:16px}
+  .stScroll{align-self:stretch}
+  .sdeck{flex:0 0 min(320px,46%)}
+}
+.stSec{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:5px 3px -1px;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-variant-numeric:tabular-nums}
+.stSec b{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.09em;color:var(--ink)}
+.trk{display:flex;align-items:center;width:100%;border-radius:16px;overflow:hidden;
+  border:2px solid rgba(255,255,255,.75);background:#e9f2ff;color:#152044;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.trk.on{border-color:#ffd468;box-shadow:0 0 0 2px #ef9a1e,0 4px 0 rgba(0,0,0,.4);background:#fff8e2}
+.trkMain{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:8px;border:0;background:none;color:inherit;
+  font-family:var(--body);text-align:left;cursor:pointer}
+.trkTh{position:relative;flex:none;width:50px;height:50px;border-radius:12px;overflow:hidden;border:1px solid rgba(21,32,68,.3);
+  background:linear-gradient(168deg,var(--a,#333),var(--b,#555) 54%,var(--c,#777))}
+.trkTh svg{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;fill:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+.trkTh .eq{left:9px;right:9px;bottom:10px;height:30px;gap:3px}
+.trkTh .eq i{border-radius:2px}
+.trkTh .eq i:nth-child(n+4){display:none}
+.trk.playing .trkTh svg{opacity:0}
+.trkTx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.trkTx b{font-family:var(--display);font-size:14.5px;font-weight:600;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trkTx i{font-style:normal;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#5c6a99;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trkTx em{font-style:normal;font-size:11px;font-weight:600;color:#3d4e80;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+.trkAct{flex:none;min-width:76px;min-height:44px;margin-right:8px;padding:0 10px;border-radius:12px;cursor:pointer;
+  font-family:var(--body);font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;
+  color:#3a1c00;background:linear-gradient(180deg,#ffd468,#ef9a1e);border:2px solid #fff6d8;box-shadow:0 3px 0 rgba(21,32,68,.35)}
+.trkAct.play{color:#06240f;background:linear-gradient(180deg,#8ef09a,#3fae63);border-color:#e2ffe6}
+.trkAct.no{color:#fff;background:linear-gradient(180deg,#9aa3c4,#6d769c);border-color:rgba(255,255,255,.6)}
+.trkAct:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(21,32,68,.35)}
+/* confirm-purchase sheet and toast */
+.buyWrap{position:absolute;inset:0;z-index:8;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(8,5,20,.7);animation:bwIn .16s ease-out}
+.buyWrap[hidden]{display:none}
+.buySheet{width:100%;max-width:440px;max-height:100%;overflow-y:auto;padding:10px 16px 16px;border-radius:24px 24px 0 0;
+  background:#e9f2ff;color:#152044;border:2px solid #fff;border-bottom:0;box-shadow:0 -8px 30px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;animation:bsIn .24s cubic-bezier(.2,.9,.3,1)}
+.buySheet::before{content:"";width:44px;height:5px;border-radius:999px;background:#b9c7e6;flex:none}
+@keyframes bwIn{from{opacity:0}}
+@keyframes bsIn{from{transform:translateY(40%)}}
+.byArt{position:relative;width:88px;height:88px;border-radius:18px;overflow:hidden;border:2px solid rgba(21,32,68,.3);flex:none;
+  background:linear-gradient(168deg,var(--a,#2a2150),var(--b,#1d1640) 54%,var(--c,#140d2c))}
+.byArt .orb{position:absolute;right:13px;top:11px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff7e0,var(--c,#777))}
+.byArt .hill{position:absolute;inset:auto 0 0 0;height:28px;
+  background:radial-gradient(60% 150% at 24% 130%,rgba(0,0,0,.75) 60%,transparent 61%),radial-gradient(52% 130% at 74% 132%,rgba(0,0,0,.6) 60%,transparent 61%)}
+.byArt canvas{display:block;height:100%;margin:0 auto}
+.buySheet .lbl{color:#5c6a99}
+.buySheet h3{margin:-4px 0 0;font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:.03em;line-height:1.15;color:#152044}
+.byMath{width:100%;margin:2px 0 0;padding:4px 14px;border-radius:14px;background:#d6e3f8;font-variant-numeric:tabular-nums}
+.byMath div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;font-size:13.5px}
+.byMath div+div{border-top:1px solid rgba(21,32,68,.14)}
+.byMath dt{color:#3d4e80}
+.byMath dd{margin:0;font-weight:800}
+.byMath .tot dd{font-size:16px}
+.byMath .short dd{color:#b3261e}
+.buySheet p{margin:0;font-size:12.5px;line-height:1.4;color:#3d4e80}
+.byBtns{display:flex;gap:10px;width:100%;margin-top:3px}
+.byBtns button{flex:1;min-width:0;min-height:48px;padding:0 10px;border-radius:14px;cursor:pointer;font-family:var(--body);font-weight:800;font-size:15px;
+  font-variant-numeric:tabular-nums;box-shadow:0 4px 0 rgba(21,32,68,.35)}
+.byBtns button:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(21,32,68,.35)}
+.byNo{flex:0 0 36% !important;color:#2a3356;background:linear-gradient(180deg,#c9d5ee,#9eadd0);border:2px solid #fff}
+.byYes{color:#3a1c00;background:linear-gradient(180deg,#ffd468,#ef9a1e);border:2px solid #fff6d8}
+.byYes.blue{color:#fff;background:linear-gradient(180deg,#43a6ea,#1a56a8);border-color:#d8ecff}
+.toast{position:absolute;left:50%;top:92px;z-index:9;transform:translateX(-50%);max-width:calc(100% - 28px);padding:9px 15px;border-radius:999px;
+  background:linear-gradient(180deg,#8ef09a,#3fae63);color:#06240f;font-weight:800;font-size:13px;border:2px solid #fff;
+  box-shadow:0 4px 0 rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;animation:toastIn .28s cubic-bezier(.2,.9,.3,1)}
+.toast.plain{background:linear-gradient(180deg,#c9d5ee,#9eadd0);color:#152044}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-14px)}}
+@media (prefers-reduced-motion:reduce){.playing .eq i{animation:none;transform:scaleY(.6)}.buyWrap,.buySheet,.toast{animation:none}}
 /* --- hub home screen --- */
 .veil.hub{padding:0;border-radius:0;overflow:hidden;backdrop-filter:none;-webkit-backdrop-filter:none;
   left:calc(-1*var(--gl));right:calc(-1*var(--gr));
@@ -478,6 +607,9 @@ body.inmenu #stage{border-color:transparent;border-radius:0}
   .veil .in{max-width:620px}
   .veil.shopv .in{max-width:760px}
   .shopGrid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+  .buyWrap{align-items:center}
+  .buySheet{border-radius:24px;border-bottom:2px solid #fff}
+  .buySheet::before{display:none}
   .relGrid{grid-template-columns:repeat(4,1fr)}
   .hubSide{top:128px}
   .tile{width:66px;height:66px;border-radius:18px}
@@ -662,8 +794,32 @@ body.inmenu #stage{border-color:transparent;border-radius:0}
       <b>Music</b>
       <span class="pill"><span class="pi sh">◆</span><b class="shv">0</b></span>
     </div>
-    <div class="shopGrid" id="shSongs"></div>
-    <p class="hint">Tap once to pick, twice to buy. Finishing chapters 5 to 7 frees their song for nothing.</p>
+    <div class="stBody">
+      <div class="stScroll" id="stScroll">
+        <div class="stList" id="shSongs"></div>
+        <p class="hint">Tap a track to hear it before you spend. Shards come from chants, daily quests and first clears.</p>
+      </div>
+      <div class="sdeck" id="deck">
+        <div class="dkTop">
+          <button class="dkArt" id="dkArt" type="button" aria-label="Preview this song">
+            <span class="orb"></span><span class="hill"></span>
+            <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="dkGlyph" id="dkGlyph"></span>
+          </button>
+          <div class="dkInfo">
+            <span class="chip" id="dkState">Locked</span>
+            <b id="dkName"></b>
+            <i id="dkSub"></i>
+            <em id="dkLine"></em>
+            <div class="meter" id="dkMeter"><s id="dkFill"></s></div>
+          </div>
+        </div>
+        <div class="dkBtns">
+          <button class="dkPrev" id="dkPrev" type="button"><s id="dkProg"></s><span id="dkPrevI"></span><span id="dkPrevT">Preview</span></button>
+          <button class="dkCta" id="dkCta" type="button"></button>
+        </div>
+      </div>
+    </div>
   </div></div>
 
   <div class="veil shopv" id="skins" hidden><div class="in">
@@ -675,6 +831,18 @@ body.inmenu #stage{border-color:transparent;border-radius:0}
     <div class="shopGrid" id="shSkins"></div>
     <p class="hint">The skin you wear is the one you run in, in story and endless. Mythic unlocks when all eight relics are found.</p>
   </div></div>
+
+  <div class="buyWrap" id="buy" hidden>
+    <div class="buySheet" role="dialog" aria-modal="true" aria-labelledby="byName">
+      <div class="byArt" id="byArt"></div>
+      <span class="lbl" id="byKind">Unlock</span>
+      <h3 id="byName"></h3>
+      <dl class="byMath" id="byMath"></dl>
+      <p id="byMsg"></p>
+      <div class="byBtns"><button class="byNo" id="byNo" type="button">Not now</button><button class="byYes" id="byYes" type="button">Buy</button></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
 
   <div class="veil" id="ranks" hidden><div class="in">
     <div class="bar split"><button class="lk" data-back>Back</button><span class="lbl">Leaderboard</span></div>
@@ -832,12 +1000,23 @@ function initAudio(){
   actx=new AC({latencyHint:'interactive'});
   const comp=actx.createDynamicsCompressor();comp.threshold.value=-12;comp.ratio.value=6;comp.connect(actx.destination);
   master=actx.createGain();master.gain.value=0.8;master.connect(comp);
+  freshBuses();
+  nbuf=actx.createBuffer(1,actx.sampleRate,actx.sampleRate);
+  const d=nbuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+}
+/* Every run and every store preview gets its own music buses. The old ones are faded and cut loose,
+   so pads still ringing from the last song never bleed into the next. */
+function freshBuses(){
+  const t=actx.currentTime;
+  if(music){
+    const old=[music,leadBus,pump,sweep];
+    [music.gain,leadBus.gain].forEach(p=>{p.cancelScheduledValues(t);p.setTargetAtTime(0.0001,t,0.03)});
+    setTimeout(()=>old.forEach(n=>{try{n.disconnect()}catch(e){}}),400);
+  }
   music=actx.createGain();music.gain.value=0.85;music.connect(master);
   pump=actx.createGain();pump.connect(music);
   sweep=actx.createBiquadFilter();sweep.type='lowpass';sweep.frequency.value=9000;sweep.Q.value=3;sweep.connect(pump);
   leadBus=actx.createGain();leadBus.connect(master);
-  nbuf=actx.createBuffer(1,actx.sampleRate,actx.sampleRate);
-  const d=nbuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
 }
 function voice(dest,type,f,t,dur,gain,o){
   o=o||{};
@@ -953,8 +1132,9 @@ const GENRES=[
 GENRES.forEach(g=>g.trf=Math.pow(2,g.tr/12));
 
 /* Each game step is an 8th note; the band plays two 16ths inside it. */
-function scheduleStep(s){
-  const g=G.g,i16=s.iv/2,ch=g.ch[s.barN%g.ch.length];
+function scheduleStep(s){playStep(G.g,s)}
+function playStep(g,s){
+  const i16=s.iv/2,ch=g.ch[s.barN%g.ch.length];
   for(let sub=0;sub<2;sub++){
     const a=s.k*2+sub,t=Math.max(s.t+sub*i16*(1+g.swing),actx.currentTime+0.005);let x;
     if(x=pv(g.kick[a]))kick(t,0.9*x,g.deep);
@@ -2040,7 +2220,8 @@ document.querySelectorAll('.sb').forEach(b=>b.addEventListener('click',()=>{
 }));
 showSync();
 /* ---------- save, store, relics, leaderboard ---------- */
-let db=null,uid=null,saveRef=null,scoreRef=null,rows=null,dbState='loading',canPost=true,rkSong='',home='start',armed='';
+let db=null,uid=null,saveRef=null,scoreRef=null,rows=null,dbState='loading',canPost=true,rkSong='',home='start';
+let stSel=0,stPick=-1,PV=null,sheet=null,toastT=0;
 let saving=false,saveDirty=false,posting=false,postDirty=false;
 function localSave(){try{localStorage.setItem('mythicRunSave',JSON.stringify(S))}catch(e){}}
 function cloudSave(){
@@ -2068,7 +2249,8 @@ function foundRelic(h){
 }
 function show(id){
   const all=['start','over','store','skins','ranks','tune','map','songs','pause','coach','daily','relics','reveal'];
-  if(id==='skins'){armed='';renderStore()}
+  closeSheet();if(id!=='store')previewStop();
+  if(id==='skins')renderSkins();
   all.forEach(v=>$(v).hidden=v!==id);
   document.body.classList.toggle('inmenu',all.indexOf(id)>=0);
   document.body.classList.toggle('onhub',id==='start');
@@ -2079,7 +2261,11 @@ function show(id){
   if(id==='map'){mi=hv;renderMap()}
   if(id==='daily')renderDaily();
   if(id==='relics')renderRelics();
-  if(id==='store'){armed='';renderStore();$('store').scrollTop=0;}
+  if(id==='store'){
+    /* open on the song you came for, else the next one to unlock, else the one you play */
+    const nx=GENRES.findIndex(g=>!owns(g));
+    stSel=stPick>=0?stPick:nx>=0?nx:gi;stPick=-1;renderMusic();$('stScroll').scrollTop=0;
+  }
   if(id==='ranks'){rkSong=GENRES[gi].id;renderRanks()}
 }
 function saveMode(){try{localStorage.setItem('mythicRunMode',mode);localStorage.setItem('mythicRunSong',gi);
@@ -2123,7 +2309,7 @@ function renderTracks(){
     b.setAttribute('aria-pressed',String(mode==='endless'&&i===gi));
     b.querySelector('.st').textContent=own?(best?'Best '+best:'New'):'◆ '+g.cost;
     b.querySelector('.sc').textContent=own?'':'Locked';
-    b.addEventListener('click',()=>{if(own){pickSong(i);begin()}else show('store')});
+    b.addEventListener('click',()=>{if(own){pickSong(i);begin()}else{stPick=i;show('store')}});
     el.appendChild(b);
   });
 }
@@ -2219,11 +2405,78 @@ function shopBtn(title,sub,state,dim,on,fn){
   const st=document.createElement('i');st.textContent=state;
   b.append(h,s,st);b.addEventListener('click',fn);return b;
 }
-function price(key,cost){return armed===key?'Tap again to buy':S.shards>=cost?'◆ '+cost:'◆ '+cost+' · need '+(cost-S.shards)}
-function buy(key,cost,done){
-  if(S.shards<cost)return;
-  if(armed!==key){armed=key;renderStore();return}
-  armed='';S.shards-=cost;done();persist();refreshUI();renderStore();
+const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
+  PAUSE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
+  LOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V8a5 5 0 0 1 10 0v2h1.5v10h-13V10zm2 0h6V8a3 3 0 0 0-6 0z"/></svg>',
+  EQ='<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>';
+const skyVars=g=>'--a:'+g.sky[0]+';--b:'+g.sky[1]+';--c:'+g.sky[2];
+const freeAt=g=>STORY.findIndex(x=>x.u&&GENRES[x.g].id===g.id);
+const fmt=n=>(+n||0).toLocaleString('en-US');
+function toast(msg,plain){
+  const el=$('toast');el.textContent=msg;el.className='toast'+(plain?' plain':'');
+  el.hidden=true;void el.offsetWidth;el.hidden=false;
+  clearTimeout(toastT);toastT=setTimeout(()=>{el.hidden=true},2200);
+}
+/* --- song preview: eight bars of the real backing with a short melody over the last six --- */
+const PVMEL=[4,-1,5,4,-1,2,4,-1,5,-1,7,5,4,-1,2,-1],PVLEN=64;
+function previewStop(){
+  if(!PV)return;
+  clearInterval(PV.tm);PV=null;
+  if(actx&&music){const t=actx.currentTime;
+    [music.gain,leadBus.gain].forEach(p=>{p.cancelScheduledValues(t);p.setTargetAtTime(0.0001,t,0.04)})}
+  if(!$('store').hidden)renderMusic();
+}
+function previewStart(i){
+  initAudio();if(actx.state==='suspended')actx.resume();
+  if(PV){clearInterval(PV.tm);PV=null}
+  freshBuses();
+  const g=GENRES[i],iv=30/g.bpm;
+  PV={i,g,iv,n:0,t0:actx.currentTime+0.1,dur:PVLEN*iv};
+  PV.tm=setInterval(pvTick,40);pvTick();renderMusic();
+}
+function pvTick(){
+  if(!PV)return;
+  const now=actx.currentTime;
+  while(PV.n<PVLEN&&PV.t0+PV.n*PV.iv<now+0.2){
+    const n=PV.n++,bar=n>>3;
+    playStep(PV.g,{t:PV.t0+n*PV.iv,iv:PV.iv,k:n%8,barN:bar,count:false,note:bar>=2?PVMEL[n%16]:-1});
+  }
+  if(now>PV.t0+PV.dur+0.2)previewStop();
+}
+const previewToggle=i=>{if(PV&&PV.i===i)previewStop();else previewStart(i)};
+/* --- confirm sheet: shows the sum before any shards leave --- */
+function openSheet(o){
+  sheet=o;
+  const poor=S.shards<o.cost,art=$('byArt');
+  art.textContent='';art.style.cssText=o.sky||'';
+  if(o.canvas){const c=document.createElement('canvas');c.width=o.canvas.width;c.height=o.canvas.height;
+    c.getContext('2d').drawImage(o.canvas,0,0);art.appendChild(c)}
+  else if(o.sky)art.innerHTML='<span class="orb"></span><span class="hill"></span>';
+  $('byKind').textContent=o.kind;$('byName').textContent=o.name;
+  const m=$('byMath');m.textContent='';
+  const line=(k,v,cls)=>{const d=document.createElement('div');if(cls)d.className=cls;
+    const a=document.createElement('dt'),b=document.createElement('dd');a.textContent=k;b.textContent=v;d.append(a,b);m.appendChild(d)};
+  line('Price','◆ '+fmt(o.cost));line('You have','◆ '+fmt(S.shards));
+  if(poor)line('Short by','◆ '+fmt(o.cost-S.shards),'tot short');else line('Left after','◆ '+fmt(S.shards-o.cost),'tot');
+  $('byMsg').textContent=poor?'Not enough shards yet. Daily quests are the quickest way to earn more.'+(o.free?' '+o.free:''):(o.free||o.tip||'');
+  $('byMsg').hidden=!$('byMsg').textContent;
+  $('byNo').textContent=poor?'Close':'Not now';
+  const y=$('byYes');y.textContent=poor?'Daily quests':'Buy for ◆ '+fmt(o.cost);y.className='byYes'+(poor?' blue':'');
+  $('buy').hidden=false;y.focus({preventScroll:true});
+}
+function closeSheet(){if(!sheet)return;sheet=null;$('buy').hidden=true}
+$('byNo').addEventListener('click',closeSheet);
+$('buy').addEventListener('click',e=>{if(e.target===$('buy'))closeSheet()});
+$('byYes').addEventListener('click',()=>{
+  const o=sheet;if(!o)return;
+  if(S.shards<o.cost){show('daily');return}
+  closeSheet();S.shards-=o.cost;o.done();persist();refreshUI();renderStore();buzz(30);toast(o.msg);
+});
+function buySong(i){
+  const g=GENRES[i],ci=freeAt(g);
+  openSheet({kind:'Unlock song',name:g.name,cost:g.cost,sky:skyVars(g),
+    free:ci>=0?'Clearing chapter '+(ci+1)+' in story mode also frees this song.':'',
+    done:()=>{S.songs.push(g.id);stSel=i;pickSong(i)},msg:g.name+' unlocked'});
 }
 function card2(cls,artHtml,top,name,sub,buyTxt,buyCls,fn){
   const b=document.createElement('button');b.className='card2'+cls;b.type='button';
@@ -2235,30 +2488,77 @@ function card2(cls,artHtml,top,name,sub,buyTxt,buyCls,fn){
   b.querySelector('.c2buy').textContent=buyTxt;
   b.addEventListener('click',fn);return b;
 }
-function renderStore(){
+function renderStore(){renderMusic();renderSkins()}
+function renderMusic(){
+  stSel=Math.max(0,Math.min(GENRES.length-1,stSel));
+  const g=GENRES[stSel],own=owns(g),poor=!own&&S.shards<g.cost,on=!!PV&&PV.i===stSel,dk=$('deck');
+  /* the featured deck */
+  dk.style.cssText=skyVars(g)+';--beat:'+(30/g.bpm).toFixed(3)+'s';
+  dk.classList.toggle('playing',on);
+  const st=$('dkState'),pick=own&&stSel===gi;
+  st.textContent=own?(pick?'Your endless song':'Owned'):'Locked';st.className='chip'+(own?(pick?' pick':' own'):'');
+  $('dkName').textContent=g.name;$('dkSub').textContent=g.tag+' · '+g.bpm+' bpm';
+  const best=+S.best[g.id]||0;
+  $('dkLine').textContent=own?(best?'Endless best '+fmt(best):'No endless run yet'):
+    poor?'◆ '+fmt(S.shards)+' of '+fmt(g.cost)+' · '+fmt(g.cost-S.shards)+' to go':'You have enough shards';
+  $('dkMeter').hidden=own;
+  $('dkFill').style.width=own?'0':Math.min(100,Math.round(S.shards/g.cost*100))+'%';
+  $('dkGlyph').innerHTML=on?PAUSE:PLAY;$('dkPrevI').innerHTML=on?PAUSE:PLAY;
+  $('dkPrevT').textContent=on?'Stop':'Preview';
+  $('dkArt').setAttribute('aria-label',(on?'Stop the preview of ':'Preview ')+g.name);
+  const pr=$('dkProg');pr.style.animation='none';
+  if(on){void pr.offsetWidth;pr.style.animation='pvbar '+PV.dur.toFixed(2)+'s linear '+(-Math.max(0,actx.currentTime-PV.t0)).toFixed(2)+'s forwards'}
+  const c=$('dkCta');
+  c.textContent=own?'Play endless':poor?'◆ '+fmt(g.cost-S.shards)+' to go':'Buy · ◆ '+fmt(g.cost);
+  c.className='dkCta'+(own?' play':poor?' no':'');
+  /* the shelf: what is left to unlock first, then what you own */
   const a=$('shSongs');a.textContent='';
-  GENRES.forEach((g,i)=>{
-    const own=owns(g),k2='song:'+g.id,sel=own&&i===gi&&mode==='endless';
-    const art='<span class="c2art" style="--a:'+g.sky[0]+';--b:'+g.sky[1]+';--c:'+g.sky[2]+
-      '"><span class="orb"></span><span class="hill"></span></span>';
-    const poor=!own&&S.shards<g.cost;
-    a.appendChild(card2(own?(sel?' own sel':' own'):'',art,own?(sel?'Playing':'Owned'):'Locked',
-      g.name,g.tag,
-      own?(sel?'Selected':'Play it'):(armed===k2?'Confirm':'◆ '+g.cost),own?'flat':(poor?'no':''),
-      ()=>{if(own){pickSong(i);renderStore()}else buy(k2,g.cost,()=>{S.songs.push(g.id);pickSong(i)})}));
-  });
+  const sec=(t,r)=>{const d=document.createElement('div');d.className='stSec';
+    const b=document.createElement('b'),sp=document.createElement('span');b.textContent=t;sp.textContent=r;d.append(b,sp);a.appendChild(d)};
+  const rowOf=i=>{
+    const x=GENRES[i],o=owns(x),p=!o&&S.shards<x.cost,play=!!PV&&PV.i===i,fc=freeAt(x),bs=+S.best[x.id]||0;
+    const d=document.createElement('div');d.className='trk'+(i===stSel?' on':'')+(play?' playing':'');
+    d.style.cssText=skyVars(x)+';--beat:'+(30/x.bpm).toFixed(3)+'s';
+    const m=document.createElement('button');m.type='button';m.className='trkMain';
+    m.setAttribute('aria-label',(play?'Stop preview of ':'Preview ')+x.name);
+    m.innerHTML='<span class="trkTh">'+(o?PLAY:LOCK)+EQ+'</span><span class="trkTx"><b></b><i></i><em></em></span>';
+    m.querySelector('.trkTx b').textContent=x.name;
+    m.querySelector('.trkTx i').textContent=x.tag+' · '+x.bpm+' bpm';
+    m.querySelector('.trkTx em').textContent=o?(bs?'Best '+fmt(bs):i===gi?'Your endless song':'Ready to play'):
+      (fc>=0?'Or free at chapter '+(fc+1):p?fmt(x.cost-S.shards)+' shards to go':'Ready to unlock');
+    m.addEventListener('click',()=>{stSel=i;previewToggle(i)});
+    const ac=document.createElement('button');ac.type='button';ac.className='trkAct'+(o?' play':p?' no':'');
+    ac.textContent=o?'Play':'◆ '+fmt(x.cost);
+    ac.setAttribute('aria-label',o?'Play '+x.name+' in endless':'Unlock '+x.name+' for '+x.cost+' shards');
+    ac.addEventListener('click',()=>{if(o){pickSong(i);begin()}else{stSel=i;renderMusic();buySong(i)}});
+    d.append(m,ac);a.appendChild(d);
+  };
+  const lock=[],mine=[];GENRES.forEach((x,i)=>(owns(x)?mine:lock).push(i));
+  if(lock.length){sec('To unlock',lock.length+' left');lock.forEach(rowOf)}
+  sec('Your music',mine.length+' of '+GENRES.length);mine.forEach(rowOf);
+}
+$('dkArt').addEventListener('click',()=>previewToggle(stSel));
+$('dkPrev').addEventListener('click',()=>previewToggle(stSel));
+$('dkCta').addEventListener('click',()=>{if(owns(GENRES[stSel])){pickSong(stSel);begin()}else buySong(stSel)});
+function renderSkins(){
   const b=$('shSkins');b.textContent='';
   SKINS.forEach(k=>{
-    const own=S.skins.includes(k.id),k2='skin:'+k.id,on=own&&S.skin===k.id;
+    const own=S.skins.includes(k.id),on=own&&S.skin===k.id;
     const art='<span class="c2art tall" style="background:'+(k.glow==='rainbow'
       ?'linear-gradient(135deg,#5a2a6e,#2a3a7a,#1f5a5a)':'linear-gradient(160deg,#2a2150,#140d2c)')+
       '"><canvas width="132" height="168"></canvas></span>';
     const poor=!own&&!k.relics&&S.shards<k.cost;
     const el=card2(own?(on?' own sel':' own'):'',art,own?(on?'Equipped':'Owned'):(k.relics?'Relic set':'Locked'),
       k.name,k.relics?'All 8 relics':(k.cost?'Skin':'Starter'),
-      own?(on?'Worn':'Wear it'):(k.relics?'Locked':(armed===k2?'Confirm':'◆ '+k.cost)),
+      own?(on?'Worn':'Wear it'):(k.relics?S.relics.length+' / '+RELICS.length+' relics':'◆ '+k.cost),
       own?'flat':(poor||k.relics?'no':''),
-      ()=>{if(own){S.skin=k.id;persist();refreshUI();renderStore()}else if(!k.relics)buy(k2,k.cost,()=>{S.skins.push(k.id);S.skin=k.id})});
+      ()=>{
+        if(own){if(!on){S.skin=k.id;persist();refreshUI();renderSkins();toast(k.name+' equipped')}}
+        else if(k.relics)toast('Find all '+RELICS.length+' relics to unlock Mythic',true);
+        else openSheet({kind:'Unlock skin',name:k.name,cost:k.cost,canvas:HERO.prev&&HERO.prev[k.id],
+          tip:'You will wear it straight away, in story and endless.',
+          done:()=>{S.skins.push(k.id);S.skin=k.id},msg:k.name+' unlocked and equipped'});
+      });
     if(HERO.ok){
       /* a small portrait of the suit in this skin's colour, drawn once and kept */
       if(!HERO.prev)HERO.prev={};
@@ -2372,7 +2672,7 @@ refreshUI();
     saveRef=db.collection('data/users/'+uid).doc('save');scoreRef=db.doc('scores/'+uid);
     try{
       const snap=await saveRef.get(),r=snap.exists?norm(snap.data()):null;
-      if(r&&r.at>S.at){S=r;localSave();refreshUI();if(!$('store').hidden)renderStore()}
+      if(r&&r.at>S.at){S=r;localSave();refreshUI();if(!$('store').hidden||!$('skins').hidden)renderStore()}
       else if(S.at&&(!r||S.at>r.at))cloudSave();
     }catch(e){}
     const timer=setTimeout(()=>{if(!rows){rows=[];if(!$('ranks').hidden)renderRanks()}},10000);
@@ -2387,9 +2687,7 @@ refreshUI();
 function begin(){
   initAudio();if(actx.state==='suspended')actx.resume();
   if(!S.seen){show('coach');return}
-  const t=actx.currentTime;
-  [music.gain,pump.gain,leadBus.gain,sweep.frequency].forEach(p=>p.cancelScheduledValues(t));
-  music.gain.setValueAtTime(0.85,t);pump.gain.setValueAtTime(1,t);leadBus.gain.setValueAtTime(1,t);sweep.frequency.setValueAtTime(9000,t);
+  previewStop();freshBuses();
   show(null);reset(false);
 }
 $('begin').addEventListener('click',()=>{if(!chOpen(hv))return;mode='story';saveMode();begin()});
@@ -2462,13 +2760,14 @@ const KEYS={a:0,s:1,d:2,j:0,k:1,l:2,'1':0,'2':1,'3':2};
 addEventListener('keydown',e=>{
   if(e.repeat||e.metaKey||e.ctrlKey||(e.target&&/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)))return;
   const k=e.key.toLowerCase();
+  if(sheet){if(k==='escape'){e.preventDefault();closeSheet()}return}
   if(!$('start').hidden&&(k==='arrowleft'||k==='arrowright')){e.preventDefault();hubGo(k==='arrowleft'?-1:1);return}
   if(k==='escape'||k==='p'){e.preventDefault();if(G&&G.paused)resumeGame();else pauseGame();return}
   const h=KEYS[k];if(h!==undefined){e.preventDefault();hit(h)}
 });
 document.addEventListener('visibilitychange',()=>{
   if(!actx)return;
-  if(document.hidden){if(G&&!G.idle&&!G.over&&!G.paused)pauseGame();else actx.suspend()}
+  if(document.hidden){previewStop();if(G&&!G.idle&&!G.over&&!G.paused)pauseGame();else actx.suspend()}
   else if(G&&!G.idle&&!G.over&&!G.paused)actx.resume();
 });
 function start(){
