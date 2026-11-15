@@ -1695,13 +1695,16 @@ function trickNow(t,p){
   G.trick={k,s:t,e:t+iv*1.9};
   return{k,u:0};
 }
-/* ---------- the hero sprite: frames cut from the player's own sheet, packed in hero.webp ---------- */
+/* ---------- the hero sprite ----------
+   Frames cut from the player's own sheet and packed into one atlas. The file name carries a hash of
+   the atlas: when the packing changes the name changes, so no browser can pair new frame
+   coordinates with an atlas it cached earlier. ---------- */
 const FR={"idle0":[1460,0,99,186,53.4,185.0],"idle1":[1149,0,100,187,53.9,186.0],"idle2":[743,0,100,188,52.9,186.0],"idle3":[845,0,100,188,53.8,186.0],"idle4":[947,0,100,188,53.8,186.0],"idle5":[1251,0,99,187,53.6,186.0],"run0":[1561,0,115,186,76.4,186.0],"run1":[1678,0,117,185,74.5,189.0],"run2":[0,0,126,196,80.7,185.0],"run3":[231,0,122,194,82.7,187.0],"run4":[347,198,120,172,84.4,188.0],"run5":[1352,0,106,187,74.4,183.0],"jp0":[1509,198,101,156,56.5,153.0],"jp1":[469,198,104,169,57.6,166.0],"jp2":[1797,0,103,185,55.0,182.0],"jp3":[1049,0,98,188,53.3,194.0],"jp4":[355,0,100,191,54.2,202.0],"jp5":[128,0,101,195,54.5,208.0],"jp6":[457,0,99,190,52.9,195.0],"jp7":[558,0,98,189,48.3,186.0],"jp8":[1902,0,100,179,49.8,176.0],"jp9":[1180,198,102,159,57.2,156.0],"fl0":[658,0,83,189,38.3,187.0],"fl1":[1010,198,79,160,39.0,182.0],"fl2":[1091,198,87,160,40.9,174.0],"fl3":[133,378,114,146,62.1,157.0],"fl4":[1612,198,106,156,51.1,156.0],"fl5":[904,198,104,161,48.6,158.0],"fl6":[575,198,99,167,44.8,163.0],"fl7":[676,198,110,167,56.2,163.0],"fl8":[120,198,113,177,59.1,173.0],"fl9":[235,198,110,173,57.5,169.0],"fl10":[788,198,114,166,64.5,164.0],"fl11":[1823,198,106,152,60.0,158.0],"fl12":[335,378,97,138,52.1,148.0],"fl13":[249,378,84,143,43.7,146.0],"fl14":[1415,198,92,157,43.8,154.0],"fl15":[1720,198,101,155,52.3,152.0],"sl0":[1284,198,129,159,55.0,159.0],"sl1":[0,378,131,150,55.7,150.0],"sl2":[605,378,150,115,56.8,115.0],"sl3":[900,378,155,113,60.2,113.0],"sl4":[1057,378,162,113,65.6,113.0],"sl5":[757,378,141,115,60.4,115.0],"sl6":[434,378,169,117,97.1,117.0],"sl7":[0,198,118,178,65.4,178.0]};
 const SEQ={idle:['idle0','idle1','idle2','idle3','idle4','idle5'],run:['run0','run1','run2','run3','run4','run5'],
   flip:['fl0','fl1','fl2','fl3','fl4','fl5','fl6','fl7','fl8','fl9','fl10','fl11','fl12','fl13','fl14','fl15'],leap:['jp0','jp1','jp2','jp3','jp4','jp5','jp6','jp7','jp8','jp9'],
   slide:['sl0','sl1','sl2','sl3','sl4','sl5','sl6','sl7']};
 const HS=56/186,HERO={img:null,ok:false,tints:{},order:[]};
-(function(){const im=new Image();im.onload=()=>{HERO.img=im;HERO.ok=true};im.src='hero.webp'})();
+(function(){const im=new Image();im.onload=()=>{HERO.img=im;HERO.ok=true};im.src='hero-3dbd6e78.webp'})();
 /* Skins recolour only the suit: pixels in the violet band move to the skin's hue, skin and trim stay. */
 function tinted(hue,dim){
   if(hue==null&&!dim)return HERO.img;
